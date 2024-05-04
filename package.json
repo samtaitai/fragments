@@ -9,5 +9,8 @@
   },
   "repository": "git+https://github.com:samtaitai/fragments.git",
   "author": "soyonlee",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
 }
