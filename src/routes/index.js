@@ -1,6 +1,7 @@
 // src/routes/index.js
 
 const express = require('express');
+const responseHelper = require('../response');
 
 // version and author from package.json
 const { version, author } = require('../../package.json');
@@ -23,14 +24,16 @@ router.use(`/v1`, authenticate(), require('./api'));
 router.get('/', (req, res) => {
   // Client's shouldn't cache this response (always request it fresh)
   res.setHeader('Cache-Control', 'no-cache');
-  // Send a 200 'OK' response
-  res.status(200).json({
-    status: 'ok',
+
+  const data = {
     author,
     // Use your own GitHub URL for this!
     githubUrl: 'https://github.com/REPLACE_WITH_YOUR_GITHUB_USERNAME/fragments',
-    version,
-  });
+    version
+  }
+  
+  const jsonResponse = responseHelper.createSuccessResponse(data);
+  res.status(200).json(jsonResponse);
 });
 
 module.exports = router;

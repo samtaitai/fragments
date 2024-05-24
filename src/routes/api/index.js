@@ -12,4 +12,9 @@ const router = express.Router();
 router.get('/fragments', require('./get'));
 // Other routes (POST, DELETE, etc.) will go here later on...
 
+// Error path for test
+router.get('/fragments/test-error', (req, res) => {
+    throw new Error('Test error');
+  })
+
 module.exports = router;

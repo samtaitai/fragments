@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
 const authenticate = require('./auth');
+const responseHelper = require('./response');
 
 // author and version from our package.json file
 // TODO: make sure you have updated your name in the `author` section
@@ -63,13 +64,9 @@ app.use((err, req, res, next) => {
     logger.error({ err }, `Error processing request`);
   }
 
-  res.status(status).json({
-    status: 'error',
-    error: {
-      message,
-      code: status,
-    },
-  });
+  const errorResponse = responseHelper.createErrorResponse(status, message);
+  res.status(status).json(errorResponse);
+  
 });
 
 // Export our `app` so we can access it in server.js
