@@ -4,8 +4,6 @@ const responseHelper = require('../../response');
 
 module.exports = async (req, res) => {
   try {
-    console.log('url', req.hostname);
-
     const fragmentData = req.body;
     const url = new URL('http://' + req.hostname);
     let newFragment = new Fragment({

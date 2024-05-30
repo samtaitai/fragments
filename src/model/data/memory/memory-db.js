@@ -14,17 +14,13 @@ class MemoryDB {
    */
   get(primaryKey, secondaryKey) {
     if (!(validateKey(primaryKey) && validateKey(secondaryKey))) {
-      //both keys alive
       throw new Error(
         `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`
       );
     }
 
     const db = this.db;
-    const value = db[primaryKey] && db[primaryKey][secondaryKey]; //but data's gone from db which cause undefined value
-    if (value == undefined) {
-      throw new Error();
-    }
+    const value = db[primaryKey] && db[primaryKey][secondaryKey];
     return Promise.resolve(value);
   }
 

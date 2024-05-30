@@ -20,9 +20,9 @@ const validTypes = [
 ];
 
 describe('Fragment class', () => {
-  // test('common formats are supported', () => {
-  //   validTypes.forEach((format) => expect(Fragment.isSupportedType(format)).toBe(true));
-  // });
+  test('common formats are supported', () => {
+    validTypes.forEach((format) => expect(Fragment.isSupportedType(format)).toBe(true));
+  });
 
   describe('Fragment()', () => {
     test('ownerId and type are required', () => {
