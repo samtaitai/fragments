@@ -38,6 +38,7 @@ passport.use(authenticate.strategy());
 app.use(passport.initialize());
 
 // Define our routes
+// ./routes/index.js will handle GET request at '/' 
 app.use('/', require('./routes'));
 
 // Add 404 middleware to handle any requests for resources that can't be found

@@ -14,6 +14,7 @@ const { authenticate } = require('../auth');
 
 /**
  * Expose all of our API routes on /v1/* to include an API version.
+ * ./api/index.js will handle GET request at '/v1'
  */
 router.use(`/v1`, authenticate(), require('./api'));
 
@@ -27,8 +28,7 @@ router.get('/', (req, res) => {
 
   const data = {
     author,
-    // Use your own GitHub URL for this!
-    githubUrl: 'https://github.com/REPLACE_WITH_YOUR_GITHUB_USERNAME/fragments',
+    githubUrl: 'https://github.com/samtaitai/fragments',
     version
   }
   

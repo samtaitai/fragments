@@ -21,7 +21,7 @@ process.on('unhandledRejection', (reason, promise) => {
   throw reason;
 });
 
-// Start our server
+// Import and run server.js - Start our server
 require('./server');
 
 
