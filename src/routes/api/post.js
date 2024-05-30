@@ -5,7 +5,9 @@ const responseHelper = require('../../response');
 module.exports = async (req, res) => {
   try {
     const fragmentData = req.body;
-    const url = new URL('http://' + req.hostname);
+    //const url = new URL('http://' + req.hostname);
+    //const url = process.env.API_URL ? process.env.API_URL : req.hostname;
+
     let newFragment = new Fragment({
       ownerId: 'a',
       type: req.headers['content-type'],
@@ -22,7 +24,7 @@ module.exports = async (req, res) => {
         type: newFragment.type,
         size: newFragment.size,
       },
-      location: url,
+      location: process.env.API_URL,
     };
     const jsonResponse = responseHelper.createSuccessResponse(data);
     res.status(201).json(jsonResponse);

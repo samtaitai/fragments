@@ -10,7 +10,7 @@
 const MemoryDB = require('../../src/model/data/memory/memory-db');
 const memoryIndex = require('../../src/model/data/memory/index');
 
-describe('index.js', () => {
+describe('src/model/data/memory/index.js', () => {
   let db;
 
   // Each test will get its own, empty database instance
