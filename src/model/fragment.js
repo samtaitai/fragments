@@ -29,8 +29,8 @@ class Fragment {
     }
 
     const parsed = contentType.parse(type);
-    if (parsed.type !== 'text/plain') {
-      throw new Error();
+    if (parsed.type !== 'text/plain' && parsed.type !== 'application/json') {
+      throw new Error(); //error
     }
 
     const now = new Date();
@@ -145,8 +145,8 @@ class Fragment {
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain: charset=utf-8')
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
-  static isSupportedType(value) {
-    if (contentType.parse(value).type == 'text/plain') {
+  static isSupportedType(value) { //value is already parsed by npm content-type
+    if (contentType.parse(value).type == 'text/plain' || contentType.parse(value).type == 'application/json') {
       return true;
     } else {
       return false;

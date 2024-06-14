@@ -22,7 +22,9 @@ const rawBody = () =>
       // See if we can parse this content type. If we can, `req.body` will be
       // a Buffer (e.g., `Buffer.isBuffer(req.body) === true`). If not, `req.body`
       // will be equal to an empty Object `{}` and `Buffer.isBuffer(req.body) === false`
-      const { type } = contentType.parse(req);
+
+      //Parse the Content-Type header from the given req. Short-cut for contentType.parse(req.headers['content-type']). Throws a TypeError if the Content-Type header is missing or invalid.
+      const { type } = contentType.parse(req); //Content-Type header is invalid
       return Fragment.isSupportedType(type);
     },
   });

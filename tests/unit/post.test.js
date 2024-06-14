@@ -33,7 +33,6 @@ describe('POST /v1/fragments', () => {
       .send('Hello world')
       .set('Content-Type', 'text/plain');
 
-    //expect(res.body.location).toEqual('http://127.0.0.1/');
     expect(res.header.location).toEqual(process.env.API_URL);
   });
 
