@@ -1,7 +1,8 @@
 # Dockerise fragment
 
 # fragment image is based on node image
-FROM node:20.11.0
+# TODO: use alphine linux & lock-in with sha
+FROM node:18-alpine
 
 # metadata
 LABEL maintainer="Soyon Lee <slee550@myseneca.ca>"
@@ -22,11 +23,13 @@ ENV NPM_CONFIG_COLOR=false
 # create & Use /app as our working directory
 WORKDIR /app
 
+# COPY and RUN cacheable(reusable)
+
 # COPY source dest(image)
 # Option 1: explicit path - Copy the package.json and package-lock.json
 # files into /app. NOTE: the trailing `/` on `/app/`, which tells Docker
 # that `app` is a directory and not a file.
-COPY package*.json /app/
+COPY package*.json .
 
 # Install node dependencies defined in package-lock.json
 RUN npm install
@@ -40,6 +43,6 @@ COPY ./tests/.htpasswd ./tests/.htpasswd
 # Run the server
 CMD npm start
 
-# We run our service on port 8080
-# we can access running container with localhost:8080
+# optional
+# this container will run at port 8080; not in my machine 
 EXPOSE 8080
