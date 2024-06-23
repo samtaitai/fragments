@@ -1,48 +1,31 @@
 # Dockerise fragment
 
-# fragment image is based on node image
-# TODO: use alphine linux & lock-in with sha
-FROM node:18-alpine
+FROM node:18-alpine AS dependencies
 
-# metadata
-LABEL maintainer="Soyon Lee <slee550@myseneca.ca>"
-LABEL description="Fragment node.js microservice"
+LABEL maintainer="Soyon Lee <slee550@myseneca.ca>" \
+description="Fragment node.js microservice"
 
-# environmental variables
-# We default to use port 8080 in our service
-ENV PORT=8080
+ENV NPM_CONFIG_LOGLEVEL=warn \
+NPM_CONFIG_COLOR=false
 
-# Reduce npm spam when installing within Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#loglevel
-ENV NPM_CONFIG_LOGLEVEL=warn
-
-# Disable colour when run inside Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#color
-ENV NPM_CONFIG_COLOR=false
-
-# create & Use /app as our working directory
 WORKDIR /app
 
-# COPY and RUN cacheable(reusable)
-
-# COPY source dest(image)
-# Option 1: explicit path - Copy the package.json and package-lock.json
-# files into /app. NOTE: the trailing `/` on `/app/`, which tells Docker
-# that `app` is a directory and not a file.
 COPY package*.json .
 
-# Install node dependencies defined in package-lock.json
 RUN npm install
 
-# Copy src/
+########################################################
+
+FROM node:18-alpine@sha256:e37da457874383fa9217067867ec85fe8fe59f0bfa351ec9752a95438680056e AS deploy
+
+WORKDIR /app
+
+COPY --from=dependencies /app /app 
+
 COPY ./src ./src
 
-# Copy our HTPASSWD file; otherwise docker can't run based on env.jest
 COPY ./tests/.htpasswd ./tests/.htpasswd
 
-# Run the server
 CMD npm start
 
-# optional
-# this container will run at port 8080; not in my machine 
 EXPOSE 8080
