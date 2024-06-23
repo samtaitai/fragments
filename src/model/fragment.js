@@ -29,7 +29,7 @@ class Fragment {
     }
 
     const parsed = contentType.parse(type);
-    if (parsed.type !== 'text/plain' && parsed.type !== 'application/json') {
+    if (!parsed.type.startsWith('text/') && parsed.type !== 'application/json') {
       throw new Error(); //error
     }
 
@@ -146,7 +146,7 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) { //value is already parsed by npm content-type
-    if (contentType.parse(value).type == 'text/plain' || contentType.parse(value).type == 'application/json') {
+    if (contentType.parse(value).type.startsWith('text/') || contentType.parse(value).type == 'application/json') {
       return true;
     } else {
       return false;

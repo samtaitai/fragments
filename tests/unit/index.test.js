@@ -1,11 +1,3 @@
-/**
- * Make sure you cover all of the following async functions (i.e., they all return a Promise) and pass CI:
-    readFragment
-    writeFragment
-    readFragmentData,
-    writeFragmentData
- */
-
 // Fix this path to point to your project's `memory-db.js` source file
 const MemoryDB = require('../../src/model/data/memory/memory-db');
 const memoryIndex = require('../../src/model/data/memory/index');
