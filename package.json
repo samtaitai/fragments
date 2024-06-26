@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.7.1",
   "description": "Fragments back-end API",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "lint": "eslint --config eslint.config.mjs \"./src/**/*.js\" \"tests/**/*.js\"",
-    "start": "cross-env LOG_LEVEL=info node src/index.js",
+    "start": "cross-env LOG_LEVEL=info node ./src/index.js",
     "dev": "cross-env LOG_LEVEL=debug nodemon ./src/index.js --watch src",
     "debug": "cross-env LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/index.js --watch src",
     "test": "jest -c jest.config.js --runInBand --",
