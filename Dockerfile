@@ -22,7 +22,7 @@ WORKDIR /app
 
 COPY --from=dependencies /app /app 
 
-COPY ./src ./src
+COPY . .
 
 COPY ./tests/.htpasswd ./tests/.htpasswd
 
