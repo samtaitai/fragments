@@ -1,6 +1,6 @@
 # Dockerise fragment
 
-FROM node:18-alpine AS dependencies
+FROM node:16.15.1-bullseye AS dependencies
 
 LABEL maintainer="Soyon Lee <slee550@myseneca.ca>" \
 description="Fragment node.js microservice"
@@ -14,19 +14,22 @@ NPM_CONFIG_COLOR=false
 WORKDIR /app
 
 # The COPY instruction copies new files or directories from <src> and adds them to the filesystem of the container at the path <dest>
-COPY package*.json .
+# ./ means current dir, app
+COPY package*.json ./
 
 RUN npm install
 
 ########################################################
 
-FROM node:18-alpine@sha256:e37da457874383fa9217067867ec85fe8fe59f0bfa351ec9752a95438680056e AS deploy
+FROM node:16.15.1-bullseye AS deploy
 
 WORKDIR /app
 
-COPY --from=dependencies /app . 
+# copy generated node_modules/
+COPY --from=dependencies /app/node_modules ./node_modules
 
-COPY src/ src/
+# copy all source codes
+COPY . .
 
 COPY tests/.htpasswd tests/.htpasswd
 
