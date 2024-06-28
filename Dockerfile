@@ -25,7 +25,7 @@ FROM node:16.15.1-bullseye AS deploy
 
 WORKDIR /app
 
-# copy generated node_modules/
+# copy generated node_modules/ only
 COPY --from=dependencies /app/node_modules ./node_modules
 
 # copy all source codes
