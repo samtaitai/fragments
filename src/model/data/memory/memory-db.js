@@ -56,7 +56,7 @@ class MemoryDB {
       throw new Error(`primaryKey string is required, got primaryKey=${primaryKey}`);
     }
 
-    // No matter what, we always return an array (even if empty)
+    // it's always {}! 
     const db = this.db;
     const values = db[primaryKey] ? Object.values(db[primaryKey]) : [];
     return Promise.resolve(values);
