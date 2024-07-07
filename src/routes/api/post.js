@@ -7,8 +7,8 @@ module.exports = async (req, res) => {
     if(Buffer.isBuffer(req.body)) { 
       const fragmentData = req.body; 
 
-      let newFragment = new Fragment({  
-        ownerId: 'a',
+      let newFragment = new Fragment({
+        ownerId: req.user,
         type: req.headers['content-type'],
         size: req.body.length,
       });
@@ -27,6 +27,9 @@ module.exports = async (req, res) => {
       };
       const jsonResponse = responseHelper.createSuccessResponse(data);
       res.status(201).json(jsonResponse);
+    }
+    else {
+      return res.status(415).json({error: 'Unsupported Media Type'});
     }
     
   } catch (err) {

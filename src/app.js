@@ -13,10 +13,8 @@ const responseHelper = require('./response');
 //const { author, version } = require('../package.json');
 
 const logger = require('./logger');
-const pino = require('pino-http')({
-  // Use our default logger instance, which is already configured
-  logger,
-});
+// High-speed HTTP logger for Node.js
+const pino = require('pino-http')({ logger });
 
 // Create an express app instance we can use to attach middleware and HTTP routes
 const app = express();

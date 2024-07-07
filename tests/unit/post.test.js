@@ -1,6 +1,5 @@
 const request = require('supertest');
 const app = require('../../src/app');
-const { Fragment } = require('../../src/model/fragment');
 
 describe('POST /v1/fragments', () => {
   test('unauthenticated requests are denied', () => request(app).post('/v1/fragments').expect(401));
@@ -22,7 +21,7 @@ describe('POST /v1/fragments', () => {
       .send('Hello world')
       .set('Content-Type', 'text/plain');
 
-    expect(res.body.fragment.ownerId).toEqual('a');
+    expect(res.body.fragment.ownerId).toEqual('d4dd23a6e252fc26445422a6b5480fab917d667fd023b35c444c653148cd3520');
     expect(res.body.fragment.type).toEqual('text/plain');
   });
 
@@ -36,7 +35,13 @@ describe('POST /v1/fragments', () => {
     expect(res.header.location).toEqual(process.env.API_URL);
   });
 
-  test('a fragment with an unsupported type should throw error', () => {
-    expect(() => new Fragment({ ownerId: '1234', type: 'supportType' })).toThrow();
+  test('a fragment with an unsupported type should return HTTP 415', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('test_user1', 'runInBand1!')
+      .send('Hello world')
+      .set('Content-Type', 'unsupport/type');
+
+    expect(res.status).toEqual(415);
   });
 });

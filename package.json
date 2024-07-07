@@ -9,7 +9,7 @@
     "start": "cross-env LOG_LEVEL=info node ./src/index.js",
     "dev": "cross-env LOG_LEVEL=debug nodemon ./src/index.js --watch src",
     "debug": "cross-env LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/index.js --watch src",
-    "test": "jest -c jest.config.js --runInBand --",
+    "test": "jest -c jest.config.js --runInBand --detectOpenHandles --forceExit",
     "test:watch": "jest -c jest.config.js --runInBand --watch --",
     "coverage": "jest -c jest.config.js --runInBand --coverage"
   },

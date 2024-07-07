@@ -17,20 +17,20 @@ const {
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
     if (ownerId == null || type == null) {
-      throw new Error();
+      throw new Error('OwnerId and type are required.');
     }
 
     if (typeof size !== 'number') {
-      throw new Error();
+      throw new Error('Size must be a number.');
     }
 
     if (size < 0) {
-      throw new Error();
+      throw new Error('Size cannot be negative.');
     }
 
     const parsed = contentType.parse(type);
     if (!parsed.type.startsWith('text/') && parsed.type !== 'application/json') {
-      throw new Error(); //error
+      throw new Error('Unsupported Media Type'); 
     }
 
     const now = new Date();
@@ -145,8 +145,9 @@ class Fragment {
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain: charset=utf-8')
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
-  static isSupportedType(value) { //value is already parsed by npm content-type
-    if (contentType.parse(value).type.startsWith('text/') || contentType.parse(value).type == 'application/json') {
+  static isSupportedType(value) {
+    var typeObj = contentType.parse(value).type; 
+    if (typeObj.startsWith('text/') || typeObj == 'application/json') {
       return true;
     } else {
       return false;
