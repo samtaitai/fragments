@@ -12,7 +12,8 @@ module.exports = async (req, res) => {
         type: req.headers['content-type'],
         size: req.body.length,
       });
-      await newFragment.setData(fragmentData);
+      await newFragment.save(); // metadata
+      await newFragment.setData(fragmentData); // data
   
       const data = {
         fragment: {

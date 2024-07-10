@@ -26,9 +26,9 @@ const rawBody = () =>
     type: (req) => {
       /* if content type is parsible(supported) `req.body` will be a buffer
       If not, `req.body` will be equal to an empty Object `{}` and Buffer.isBuffer(req.body) is false */
-      const { type } = contentType.parse(req); 
+      const { type } = contentType.parse(req);
 
-      // Fragment.isSupportedType(type) is false, Buffer.isBuffer(req.body) will be false. 
+      // Fragment.isSupportedType(type) is false, Buffer.isBuffer(req.body) will be false.
       return Fragment.isSupportedType(type);
     },
   });

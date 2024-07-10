@@ -22,15 +22,16 @@ describe('GET /v1/fragments', () => {
       .post('/v1/fragments')
       .auth('test_user1', 'runInBand1!')
       .send('Hello world')
-      .set('Content-Type', 'text/plain')
+      .set('Content-Type', 'text/plain');
 
-    const res = await request(app)
-      .get('/v1/fragments/?expand=1').auth('test_user1', 'runInBand1!');
+    const res = await request(app).get('/v1/fragments/?expand=1').auth('test_user1', 'runInBand1!');
 
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe('ok');
-    expect(res.body.fragments[0].ownerId).toBe('d4dd23a6e252fc26445422a6b5480fab917d667fd023b35c444c653148cd3520');
-  }); 
+    expect(res.body.fragments[0].ownerId).toBe(
+      'd4dd23a6e252fc26445422a6b5480fab917d667fd023b35c444c653148cd3520'
+    );
+  });
 
   // // GET /fragments/:id
   // test('return a current user fragment data with the given id', async () => {
@@ -39,7 +40,7 @@ describe('GET /v1/fragments', () => {
   //     .post('/v1/fragments')
   //     .auth('test_user1', 'runInBand1!')
   //     .send('Hello world')
-  //     .set('Content-Type', 'text/plain') 
+  //     .set('Content-Type', 'text/plain')
   //     .get(`/v1/fragments/${res.body.fragments[0].id}`).auth('test_user1', 'runInBand1!');
 
   //   expect(res.statusCode).toBe(200);
@@ -47,11 +48,13 @@ describe('GET /v1/fragments', () => {
   //   expect(res.headers['Content-Type']).toBe(`${res.body.fragments[0].type}`);
   //   expect(res.headers['Content-Type']).toBe(`${res.body.fragments[0].size}`);
   //   expect(res.text).toBe('Hello world');
-  // }); 
+  // });
 
   // GET /fragments/:id error case
   test('If the id does not represent a known fragment, returns an HTTP 404', async () => {
-    const res = await request(app).get('/v1/fragments/no-such-id').auth('test_user1', 'runInBand1!');
+    const res = await request(app)
+      .get('/v1/fragments/no-such-id')
+      .auth('test_user1', 'runInBand1!');
     expect(res.statusCode).toBe(404);
   });
 
@@ -77,11 +80,11 @@ describe('GET /v1/fragments', () => {
   //     .post('/v1/fragments')
   //     .auth('test_user1', 'runInBand1!')
   //     .send('Hello world')
-  //     .set('Content-Type', 'text/plain') 
+  //     .set('Content-Type', 'text/plain')
   //     .get(`/v1/fragments/${res.body.fragments[0].id}/info`).auth('test_user1', 'runInBand1!');
 
   //   expect(res.statusCode).toBe(200);
   //   expect(res.body.status).toBe('ok');
   //   expect(res.body.fragments[0].type).toBe('text/plain');
-  // }); 
+  // });
 });

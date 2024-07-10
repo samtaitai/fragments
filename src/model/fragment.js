@@ -30,7 +30,7 @@ class Fragment {
 
     const parsed = contentType.parse(type);
     if (!parsed.type.startsWith('text/') && parsed.type !== 'application/json') {
-      throw new Error('Unsupported Media Type'); 
+      throw new Error('Unsupported Media Type');
     }
 
     const now = new Date();
@@ -50,7 +50,8 @@ class Fragment {
    * @returns Promise<Array<Fragment>>
    */
   static async byUser(ownerId, expand = false) {
-    return listFragments(ownerId, expand);
+    const value = await listFragments(ownerId, expand);
+    return value;
   }
 
   /**
@@ -64,7 +65,7 @@ class Fragment {
     if (value == undefined) {
       throw new Error();
     }
-    return readFragment(ownerId, id);
+    return value;
   }
 
   /**
@@ -79,10 +80,10 @@ class Fragment {
 
   /**
    * Saves the current fragment to the database
+   * Fragments have two parts: 1) metadata (i.e., details about the fragment); and 2) data (i.e., the actual binary contents of the fragment).
    * @returns Promise<void>
    */
-  save() {
-    this.updated = new Date().toISOString();
+  async save() {
     return writeFragment(this);
   }
 
@@ -90,8 +91,9 @@ class Fragment {
    * Gets the fragment's data from the database
    * @returns Promise<Buffer>
    */
-  getData() {
-    return readFragmentData(this.ownerId, this.id);
+  async getData() {
+    const value = await readFragmentData(this.ownerId, this.id);
+    return value;
   }
 
   /**
@@ -103,7 +105,7 @@ class Fragment {
     if (!data) {
       throw new Error();
     }
-    this.updated = new Date().toISOString();
+    //this.updated = new Date().toISOString();
     this.size = data.length;
     return writeFragmentData(this.ownerId, this.id, data);
   }
@@ -146,7 +148,7 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    var typeObj = contentType.parse(value).type; 
+    var typeObj = contentType.parse(value).type;
     if (typeObj.startsWith('text/') || typeObj == 'application/json') {
       return true;
     } else {
