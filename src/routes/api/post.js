@@ -23,7 +23,6 @@ module.exports = async (req, res) => {
           type: newFragment.type,
           size: newFragment.size,
         },
-        //location: `${process.env.API_URL}/${newFragment.id}`,
       };
       const jsonResponse = responseHelper.createSuccessResponse(data);
       return res.status(201).location(`${process.env.API_URL}/${newFragment.id}`).json(jsonResponse);

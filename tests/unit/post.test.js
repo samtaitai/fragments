@@ -32,7 +32,7 @@ describe('POST /v1/fragments', () => {
       .send('Hello world')
       .set('Content-Type', 'text/plain');
 
-    expect(res.header.location).toBe(process.env.API_URL);
+    expect(res.headers.location).toContain(process.env.API_URL);
   });
 
   test('a fragment with an unsupported type should return HTTP 415', async () => {
