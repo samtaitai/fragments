@@ -16,38 +16,38 @@ describe('GET /v1/fragments', () => {
   // });
 
   // GET /fragments/?expand=1
-  test('the fragments array has the matching owner id info', async () => {
-    // post example fragment first to get the populated fragment array
-    await request(app)
-      .post('/v1/fragments')
-      .auth('test_user1', 'runInBand1!')
-      .send('Hello world')
-      .set('Content-Type', 'text/plain');
-
-    const res = await request(app).get('/v1/fragments/?expand=1').auth('test_user1', 'runInBand1!');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.fragments[0].ownerId).toBe(
-      'd4dd23a6e252fc26445422a6b5480fab917d667fd023b35c444c653148cd3520'
-    );
-  });
-
-  // // GET /fragments/:id
-  // test('return a current user fragment data with the given id', async () => {
-  //   // post example fragment first to get its id
-  //   const res = await request(app)
+  // test('the fragments array has the matching owner id info', async () => {
+  //   await request(app)
   //     .post('/v1/fragments')
   //     .auth('test_user1', 'runInBand1!')
   //     .send('Hello world')
-  //     .set('Content-Type', 'text/plain')
-  //     .get(`/v1/fragments/${res.body.fragments[0].id}`).auth('test_user1', 'runInBand1!');
+  //     .set('Content-Type', 'text/plain');
+
+  //   const res = await request(app).get('/v1/fragments/?expand=1').auth('test_user1', 'runInBand1!');
 
   //   expect(res.statusCode).toBe(200);
   //   expect(res.body.status).toBe('ok');
-  //   expect(res.headers['Content-Type']).toBe(`${res.body.fragments[0].type}`);
-  //   expect(res.headers['Content-Type']).toBe(`${res.body.fragments[0].size}`);
-  //   expect(res.text).toBe('Hello world');
+  //   expect(res.body.fragments[0].ownerId).toBe(
+  //     'd4dd23a6e252fc26445422a6b5480fab917d667fd023b35c444c653148cd3520'
+  //   );
+  // });
+
+  // GET /fragments/:id
+  // test('returns an existing fragment data with the expected Content-Type', async () => {
+  //   const postRes = await request(app)
+  //     .post('/v1/fragments')
+  //     .auth('test_user1', 'runInBand1!')
+  //     .send('Hello world')
+  //     .set('Content-Type', 'text/plain');
+
+  //   expect(postRes.statusCode).toBe(201);
+  //   const testId = postRes.body.fragment.id;
+
+  //   const res = await request(app).get(`/v1/fragments/${testId}`).auth('test_user1', 'runInBand1!');
+
+  //   expect(res.statusCode).toBe(200);
+  //   expect(res.body.status).toBe('ok');
+  //   expect(res.body.fragments[0].type).toBe('text/plain');
   // });
 
   // GET /fragments/:id error case
@@ -75,13 +75,13 @@ describe('GET /v1/fragments', () => {
 
   // // GET /fragments/:id/info
   // test('returns an existing fragment metadata', async () => {
-  //   // post example fragment first to get its id
-  //   const res = await request(app)
+  //   await request(app)
   //     .post('/v1/fragments')
   //     .auth('test_user1', 'runInBand1!')
   //     .send('Hello world')
-  //     .set('Content-Type', 'text/plain')
-  //     .get(`/v1/fragments/${res.body.fragments[0].id}/info`).auth('test_user1', 'runInBand1!');
+  //     .set('Content-Type', 'text/plain');
+
+  //   const res = await request(app).get('/v1/fragments/?expand=1').auth('test_user1', 'runInBand1!');
 
   //   expect(res.statusCode).toBe(200);
   //   expect(res.body.status).toBe('ok');

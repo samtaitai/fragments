@@ -14,7 +14,9 @@ router.get('/fragments', require('./get'));
 
 router.get('/fragments?expand=1', require('./get'));
 
-router.get('/fragments/:id.:ext', require('./get'));
+router.get('/fragments/:id', require('./get'));
+
+router.get('/fragments/:id.ext', require('./get'));
 
 router.get('/fragments/:id/info', require('./get'));
 

@@ -4,8 +4,8 @@ const responseHelper = require('../../response');
 
 module.exports = async (req, res) => {
   try {
-    if(Buffer.isBuffer(req.body)) { 
-      const fragmentData = req.body; 
+    if (Buffer.isBuffer(req.body)) {
+      const fragmentData = req.body;
 
       let newFragment = new Fragment({
         ownerId: req.user,
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       });
       await newFragment.save(); // metadata
       await newFragment.setData(fragmentData); // data
-  
+
       const data = {
         fragment: {
           id: newFragment.id,
@@ -28,11 +28,9 @@ module.exports = async (req, res) => {
       };
       const jsonResponse = responseHelper.createSuccessResponse(data);
       res.status(201).json(jsonResponse);
+    } else {
+      return res.status(415).json({ error: 'Unsupported Media Type' });
     }
-    else {
-      return res.status(415).json({error: 'Unsupported Media Type'});
-    }
-    
   } catch (err) {
     logger.error({ err }, 'uncaughtException');
     throw err;
