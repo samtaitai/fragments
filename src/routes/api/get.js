@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
       // data.fragments.push(fragmentData);
       // res.status(200).json(jsonResponse);
     }
-
+    data.fragments = await Fragment.byUser(req.user, true);
     let found = data.fragments.filter((f) => f.id == req.params.id)[0];
     // If the id does not represent a known fragment, returns an HTTP 404
     if (!found) {
