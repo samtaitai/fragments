@@ -16,8 +16,6 @@ router.get('/fragments?expand=1', require('./get'));
 
 router.get('/fragments/:id', require('./get'));
 
-//router.get('/fragments/:id.ext', require('./get'));
-
 router.get('/fragments/:id/info', require('./get'));
 
 // Support sending various Content-Types on the body up to 5M in size
@@ -38,8 +36,10 @@ const rawBody = () =>
 router.post('/fragments', rawBody(), require('./post'));
 
 // Error path for test
-router.get('/fragments/test-error', () => {
-  throw new Error('Test error');
-});
+// router.get('/fragments/test-error', (next) => {
+//   const error = new Error('Internal Server Error');
+//   error.statusCode = 500;
+//   next(error);
+// });
 
 module.exports = router;
