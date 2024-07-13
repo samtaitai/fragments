@@ -8,7 +8,7 @@ const validTypes = [
   `text/plain`,
   `text/markdown`,
   `text/html`,
-  `application/json`
+  `application/json`,
   /*
    Currently, only text/plain is supported. Others will be added later.
   `image/png`,

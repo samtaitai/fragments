@@ -84,7 +84,10 @@ class Fragment {
    * @returns Promise<void>
    */
   async save() {
-    return writeFragment(this);
+    const now = new Date();
+    this.updated = now.toISOString();
+    await writeFragment(this);
+    return;
   }
 
   /**
@@ -106,8 +109,11 @@ class Fragment {
       throw new Error();
     }
     //this.updated = new Date().toISOString();
+    const now = new Date();
+    this.updated = now.toISOString();
     this.size = data.length;
-    return writeFragmentData(this.ownerId, this.id, data);
+    await writeFragmentData(this.ownerId, this.id, data);
+    return;
   }
 
   /**
