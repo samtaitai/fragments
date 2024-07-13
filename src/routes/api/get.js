@@ -33,29 +33,30 @@ module.exports = async (req, res) => {
 
   // GET /fragments/:id
   if (req.params.id) {
-    // GET /fragments/:id/info
-    if (req.path.endsWith('/info')) {
-      // let fragmentData = await Fragment.byId(req.user, req.params.id);
-      // data.fragments.push(fragmentData);
-      // res.status(200).json(jsonResponse);
-    }
     data.fragments = await Fragment.byUser(req.user, true);
-    let found = data.fragments.filter((f) => f.id == req.params.id)[0];
-    // If the id does not represent a known fragment, returns an HTTP 404
+    let found = data.fragments.filter((f) => f.id == req.params.id);
+
     if (!found) {
       jsonResponse = responseHelper.createErrorResponse('404', 'unknown fragment');
       res.status(404).json(jsonResponse);
     } else {
-      let fragmentData = await Fragment.byId(req.user, req.params.id);
-      res
-        .status(200)
-        .set({
-          'Content-Type': found.type,
-          'Content-Length': found.size,
-        })
-        .send(fragmentData);
+      if (req.path.endsWith('/info')) {
+        data.fragments = found;
+        jsonResponse = responseHelper.createSuccessResponse(data);
+        res.status(200).json(jsonResponse);
+      } else {
+        let fragmentData = await Fragment.byId(req.user, req.params.id);
+        res
+          .status(200)
+          .set({
+            'Content-Type': found.type,
+            'Content-Length': found.size,
+          })
+          .send(fragmentData);
+      }
     }
   }
+
   // GET /fragments/:id.ext
   // if (req.params.ext && req.params.ext == 'html') {
   //   if (data.fragments[0].type == 'text/markdown') {

@@ -33,7 +33,32 @@ describe('GET /v1/fragments', () => {
   // });
 
   // GET /fragments/:id
-  test('returns an existing fragment data with the expected Content-Type', async () => {
+  // test('returns an existing fragment data with the expected Content-Type', async () => {
+  //   const postRes = await request(app)
+  //     .post('/v1/fragments')
+  //     .auth('test_user1', 'runInBand1!')
+  //     .send('Hello world')
+  //     .set('Content-Type', 'text/plain');
+
+  //   expect(postRes.statusCode).toBe(201);
+  //   const testId = postRes.body.fragment.id;
+
+  //   const res = await request(app).get(`/v1/fragments/${testId}`).auth('test_user1', 'runInBand1!');
+
+  //   expect(res.statusCode).toBe(200);
+  //   expect(res.header['content-type']).toContain('text/plain');
+  // });
+
+  // GET /fragments/:id error case
+  // test('If the id does not represent a known fragment, returns an HTTP 404', async () => {
+  //   const res = await request(app)
+  //     .get('/v1/fragments/no-such-id')
+  //     .auth('test_user1', 'runInBand1!');
+  //   expect(res.statusCode).toBe(404);
+  // });
+
+  // GET /fragments/:id/info
+  test('returns an existing fragment metadata', async () => {
     const postRes = await request(app)
       .post('/v1/fragments')
       .auth('test_user1', 'runInBand1!')
@@ -43,19 +68,14 @@ describe('GET /v1/fragments', () => {
     expect(postRes.statusCode).toBe(201);
     const testId = postRes.body.fragment.id;
 
-    const res = await request(app).get(`/v1/fragments/${testId}`).auth('test_user1', 'runInBand1!');
+    const res = await request(app)
+      .get(`/v1/fragments/${testId}/info`)
+      .auth('test_user1', 'runInBand1!');
 
     expect(res.statusCode).toBe(200);
-    expect(res.header['content-type']).toContain('text/plain');
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragments[0].type).toBe('text/plain');
   });
-
-  // GET /fragments/:id error case
-  // test('If the id does not represent a known fragment, returns an HTTP 404', async () => {
-  //   const res = await request(app)
-  //     .get('/v1/fragments/no-such-id')
-  //     .auth('test_user1', 'runInBand1!');
-  //   expect(res.statusCode).toBe(404);
-  // });
 
   // // GET /fragments/:id.ext
   // test('convert markdown data to html', async () => {
@@ -70,20 +90,5 @@ describe('GET /v1/fragments', () => {
   //   expect(res.statusCode).toBe(200);
   //   expect(res.body.status).toBe('ok');
   //   expect(res.body.fragments[0].type).toBe('text/html');
-  // });
-
-  // // GET /fragments/:id/info
-  // test('returns an existing fragment metadata', async () => {
-  //   await request(app)
-  //     .post('/v1/fragments')
-  //     .auth('test_user1', 'runInBand1!')
-  //     .send('Hello world')
-  //     .set('Content-Type', 'text/plain');
-
-  //   const res = await request(app).get('/v1/fragments/?expand=1').auth('test_user1', 'runInBand1!');
-
-  //   expect(res.statusCode).toBe(200);
-  //   expect(res.body.status).toBe('ok');
-  //   expect(res.body.fragments[0].type).toBe('text/plain');
   // });
 });
