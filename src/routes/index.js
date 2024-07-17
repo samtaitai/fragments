@@ -2,6 +2,7 @@
 
 const express = require('express');
 const responseHelper = require('../response');
+const { hostname } = require('os');
 
 // version and author from package.json
 const { version, author } = require('../../package.json');
@@ -25,13 +26,12 @@ router.use(`/v1`, authenticate(), require('./api'));
 router.get('/', (req, res) => {
   // Client's shouldn't cache this response (always request it fresh)
   res.setHeader('Cache-Control', 'no-cache');
-
   const data = {
     author,
     githubUrl: 'https://github.com/samtaitai/fragments',
-    version
+    version,
+    hostname: hostname()
   }
-  
   const jsonResponse = responseHelper.createSuccessResponse(data);
   res.status(200).json(jsonResponse);
 });
