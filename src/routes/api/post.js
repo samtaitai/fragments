@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
         },
       };
       const jsonResponse = responseHelper.createSuccessResponse(data);
-      return res.status(201).location(`${process.env.API_URL}/${newFragment.id}`).json(jsonResponse);
+      return res.status(201).location(`${process.env.API_URL}/v1/fragments/${newFragment.id}`).json(jsonResponse);
     } else {
       return res.status(415).json({ error: 'Unsupported Media Type' });
     }
