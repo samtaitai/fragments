@@ -8,11 +8,14 @@ const contentType = require('content-type');
 const {
   readFragment,
   writeFragment,
+  listFragments,
+} = require('./data/memory');
+
+const {
   readFragmentData,
   writeFragmentData,
-  listFragments,
   deleteFragment,
-} = require('./data');
+} = require('./data/aws');
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {

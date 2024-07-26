@@ -35,11 +35,6 @@ const rawBody = () =>
 
 router.post('/fragments', rawBody(), require('./post'));
 
-// Error path for test
-// router.get('/fragments/test-error', (next) => {
-//   const error = new Error('Internal Server Error');
-//   error.statusCode = 500;
-//   next(error);
-// });
+router.delete('/fragments/:id', require('./post'));
 
 module.exports = router;
