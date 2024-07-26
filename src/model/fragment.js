@@ -111,7 +111,6 @@ class Fragment {
     if (!data) {
       throw new Error();
     }
-    //this.updated = new Date().toISOString();
     const now = new Date();
     this.updated = now.toISOString();
     this.size = data.length;
