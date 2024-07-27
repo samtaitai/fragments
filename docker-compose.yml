@@ -30,7 +30,7 @@ services:
       # Fix CredentialsProviderError while integration testing
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
-      - AWS_SESSION_TOKEN=dummy-session-token
+      - AWS_SESSION_TOKEN=test
     # Ports to publish
     ports:
         - "8080:8080"
