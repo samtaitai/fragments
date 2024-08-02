@@ -12,7 +12,8 @@
     "test": "jest -c jest.config.js --runInBand",
     "test:watch": "jest -c jest.config.js --runInBand --watch --",
     "coverage": "jest -c jest.config.js --runInBand --coverage",
-    "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\""
+    "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\"",
+    "test:integration_single": "hurl --test --glob \"tests/integration/**/lab-10-dynamodb.hurl\""
   },
   "repository": "git+https://github.com:samtaitai/fragments.git",
   "author": "soyonlee",
@@ -30,7 +31,9 @@
     "supertest": "^7.0.0"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.621.0",
     "@aws-sdk/client-s3": "^3.620.0",
+    "@aws-sdk/lib-dynamodb": "^3.621.0",
     "aws-jwt-verify": "^4.0.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",

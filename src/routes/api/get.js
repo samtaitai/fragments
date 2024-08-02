@@ -35,30 +35,42 @@ module.exports = async (req, res) => {
 
   // GET /fragments/:id
   if (req.params.id) {
-    const fragmentId = req.params.id.split('.')[0];
-    let fragmentMetaData;
+    let result;
+    let fragmentData;
+    const extensionRegex = /\.(\w+)$/;
+    const match = req.path.match(extensionRegex);
 
     try {
-      fragmentMetaData = await Fragment.byId(req.user, fragmentId);
-      const extensionRegex = /\.(\w+)$/;
-      const match = req.path.match(extensionRegex);
-      let fragmentData = await fragmentMetaData.getData(req.user, fragmentId);
+      result = await Fragment.byId(req.user, req.params.id);
+      // Fix TypeError: Fragment.getData is not a function
+      const fragment = new Fragment({
+        id: result.id,
+        ownerId: result.ownerId,
+        created: result.created,
+        updated: result.updated,
+        type: result.type,
+        size: result.size
+      });
+      fragmentData = await fragment.getData(); 
 
+      // GET /fragments/:id/info
       if (req.path.endsWith('/info')) {
-        data.fragments.push(fragmentMetaData);
+        data.fragments.push(fragment);
+        // console.log(`fragment is `, JSON.stringify(fragment, null, 2));
+        // console.log(`data is `, JSON.stringify(data, null, 2));
         jsonResponse = responseHelper.createSuccessResponse(data);
         return res.status(200).json(jsonResponse);
       }
 
+      // GET /fragments/:id.ext
       if (match) {
-        // GET /fragments/:id.ext
-        if (fragmentMetaData.type == 'text/markdown') {
+        if (fragment.type == 'text/markdown') {
           fragmentData = md.render(fragmentData.toString('utf8'));
           return res
             .status(200)
             .set({
               'Content-Type': 'text/html',
-              'Content-Length': fragmentMetaData.size,
+              'Content-Length': fragment.size,
             })
             .send(fragmentData);
         } else {
@@ -66,11 +78,12 @@ module.exports = async (req, res) => {
           return res.status(415).json(jsonResponse);
         }
       }
+
       return res
         .status(200)
         .set({
-          'Content-Type': fragmentMetaData.type,
-          'Content-Length': fragmentMetaData.size,
+          'Content-Type': fragment.type,
+          'Content-Length': fragment.size,
         })
         .send(fragmentData);
     } catch (err) {

@@ -4,17 +4,14 @@ const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 
-// Functions for working with fragment metadata/data using our DB
-const {
-  readFragment,
-  writeFragment,
-  listFragments,
-} = require('./data/memory');
-
+// ditch MemoryDB => s3 & dynamoDB
 const {
   readFragmentData,
   writeFragmentData,
   deleteFragment,
+  readFragment,
+  writeFragment,
+  listFragments,
 } = require('./data/aws');
 
 class Fragment {
@@ -98,8 +95,10 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   async getData() {
-    const value = await readFragmentData(this.ownerId, this.id);
-    return value;
+    // const value = await readFragmentData(this.ownerId, this.id);
+    // return value;
+    // await is optional here? because async keyword automatically wrap return value in a promise? 
+    return readFragmentData(this.ownerId, this.id); 
   }
 
   /**

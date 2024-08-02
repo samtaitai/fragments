@@ -5,7 +5,9 @@
  *
  * {
  *   "status": "ok",
- *   ...
+ *   "fragments": [
+ *    { ... } 
+ *   ]
  * }
  */
 module.exports.createSuccessResponse = function (data) {
