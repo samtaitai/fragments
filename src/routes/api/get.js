@@ -38,10 +38,12 @@ module.exports = async (req, res) => {
     let result;
     let fragmentData;
     const extensionRegex = /\.(\w+)$/;
-    const match = req.path.match(extensionRegex);
+    const isMatch = extensionRegex.test(req.path);
+    const fragmentId = req.params.id.split('.')[0];
 
     try {
-      result = await Fragment.byId(req.user, req.params.id);
+      // in :id.ext case, req.params.id looks like b67a04ab-afb1-4c23-ad45-75dd2706fbb8.html
+      result = await Fragment.byId(req.user, fragmentId); 
       // Fix TypeError: Fragment.getData is not a function
       const fragment = new Fragment({
         id: result.id,
@@ -63,8 +65,10 @@ module.exports = async (req, res) => {
       }
 
       // GET /fragments/:id.ext
-      if (match) {
-        if (fragment.type == 'text/markdown') {
+      if (isMatch) {
+        console.log("pass 'isMatch'");
+        if (fragment.type.includes('text/markdown')) {
+          console.log("pass 'fragment.type.includes('text/markdown')'");
           fragmentData = md.render(fragmentData.toString('utf8'));
           return res
             .status(200)

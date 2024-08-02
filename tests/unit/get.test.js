@@ -9,12 +9,12 @@ describe('GET /v1/fragments', () => {
     request(app).get('/v1/fragments').auth('invalid@email.com', 'incorrect_password').expect(401));
 
   // if posting nothing, await ddbDocClient.send(command) cause error
-  // test('authenticated users get a fragments array', async () => {
-  //   const res = await request(app).get('/v1/fragments').auth('test_user1', 'runInBand1!');
-  //   expect(res.statusCode).toBe(200);
-  //   expect(res.body.status).toBe('ok');
-  //   expect(Array.isArray(res.body.fragments)).toBe(true);
-  // });
+  test('authenticated users get a fragments array', async () => {
+    const res = await request(app).get('/v1/fragments').auth('test_user1', 'runInBand1!');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(Array.isArray(res.body.fragments)).toBe(true);
+  });
 
   // GET /fragments/?expand=1
   test('the fragments array has the matching owner id info', async () => {

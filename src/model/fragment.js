@@ -61,9 +61,10 @@ class Fragment {
    * @returns Promise<Fragment>
    */
   static async byId(ownerId, id) {
+    console.log(`ownerId: ${ownerId}, id: ${id}`);
     const value = await readFragment(ownerId, id);
     if (value == undefined) {
-      throw new Error();
+      throw new Error("'readFragment' failed");
     }
     return value;
   }
