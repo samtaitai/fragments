@@ -66,9 +66,7 @@ module.exports = async (req, res) => {
 
       // GET /fragments/:id.ext
       if (isMatch) {
-        console.log("pass 'isMatch'");
         if (fragment.type.includes('text/markdown')) {
-          console.log("pass 'fragment.type.includes('text/markdown')'");
           fragmentData = md.render(fragmentData.toString('utf8'));
           return res
             .status(200)

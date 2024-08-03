@@ -114,6 +114,7 @@ class Fragment {
     const now = new Date();
     this.updated = now.toISOString();
     this.size = data.length;
+    this.save();
     await writeFragmentData(this.ownerId, this.id, data);
     return;
   }
