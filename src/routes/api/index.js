@@ -37,4 +37,7 @@ router.post('/fragments', rawBody(), require('./post'));
 
 router.delete('/fragments/:id', require('./delete'));
 
+// TODO: PUT /fragments:id can update an authenticated user's existing fragment
+router.put('/fragments/:id', require('./put.js'));
+
 module.exports = router;

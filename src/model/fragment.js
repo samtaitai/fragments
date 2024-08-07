@@ -156,9 +156,10 @@ class Fragment {
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain: charset=utf-8')
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
+  // TODO: POST /fragments can create any supported text, image or JSON fragments
   static isSupportedType(value) {
     var typeObj = contentType.parse(value).type;
-    if (typeObj.startsWith('text/') || typeObj == 'application/json') {
+    if (typeObj.startsWith('text/') || typeObj.startsWith('application/') || typeObj.startsWith('image/')) {
       return true;
     } else {
       return false;

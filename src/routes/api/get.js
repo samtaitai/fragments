@@ -65,6 +65,7 @@ module.exports = async (req, res) => {
       }
 
       // GET /fragments/:id.ext
+      // TODO: Conversion between all supported fragment types and conversions via .ext
       if (isMatch) {
         if (fragment.type.includes('text/markdown')) {
           fragmentData = md.render(fragmentData.toString('utf8'));
