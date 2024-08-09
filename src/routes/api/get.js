@@ -5,6 +5,11 @@ const responseHelper = require('../../response');
 const markdownit = require('markdown-it');
 const md = markdownit();
 const { Fragment } = require('../../model/fragment');
+const sharp = require('sharp');
+const TurndownService = require('turndown');
+const Papa = require('papaparse');
+const fs = require('fs');
+const YAML = require('json-to-pretty-yaml');
 
 /**
  * Get a list of fragments for the current user
@@ -65,20 +70,149 @@ module.exports = async (req, res) => {
       }
 
       // GET /fragments/:id.ext
+      // if the id includes an optional extension (e.g., .txt or .png), the server attempts to convert the fragment to the type associated with that extension.
       // TODO: Conversion between all supported fragment types and conversions via .ext
       if (isMatch) {
-        if (fragment.type.includes('text/markdown')) {
-          fragmentData = md.render(fragmentData.toString('utf8'));
-          return res
+        const extension = req.params.id.split('.')[1];
+        // if original content type is txt/
+        if (fragment.type.startsWith('text/')){
+          // if ext is txt
+          if (req.path.endsWith('txt')) {
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'text/plain',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // if ext is md
+          else if (req.path.endsWith('md') && fragment.type.includes('text/html')) {
+            fragmentData = htmlToMd(fragmentData);
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'text/md',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // if ext is html
+          else if (req.path.endsWith('html') && fragment.type.includes('text/markdown')) {
+            fragmentData = mdToHtml(fragmentData);
+            return res
             .status(200)
             .set({
               'Content-Type': 'text/html',
               'Content-Length': fragment.size,
             })
             .send(fragmentData);
-        } else {
-          jsonResponse = responseHelper.createErrorResponse('415', 'unsupported type');
-          return res.status(415).json(jsonResponse);
+          }
+          else if (req.path.endsWith('json') && fragment.type.includes('text/csv')) {
+            fragmentData = csvToJson(fragmentData);
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'application/json',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          else {
+            jsonResponse = responseHelper.createErrorResponse('415', 'unsupported type');
+            return res.status(415).json(jsonResponse);
+          }
+        }
+        // application
+        else if (fragment.type.startsWith('application/')) {
+          // if ext is yaml
+          const yamlRegex = /ya?ml/
+          if (yamlRegex.test(req.path) && fragment.type.includes('application/json')) {
+            fragmentData = jsonToYaml(fragmentData);
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'application/yaml',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // is ext is json
+          else if (req.path.endsWith('txt') && fragment.type.includes('application/yaml')) {
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'text/plain',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          else {
+            jsonResponse = responseHelper.createErrorResponse('415', 'unsupported type');
+            return res.status(415).json(jsonResponse);
+          }
+        }
+        // image
+        else if (fragment.type.startsWith('image/')) {
+          // convert to png
+          if (extension == 'png') {
+            fragmentData = await sharp(fragmentData).png().toBuffer();
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'image/png',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // convert to jpg
+          else if (extension == 'jpg') {
+            fragmentData = await sharp(fragmentData).jpeg().toBuffer();
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'image/jpeg',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // convert to webp
+          else if (extension == 'wepb') {
+            fragmentData = await sharp(fragmentData).webp().toBuffer();
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'image/webp',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // convert to gif
+          else if (extension == 'gif') {
+            fragmentData = await sharp(fragmentData).gif().toBuffer();
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'image/gif',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          // convert to avif
+          else if (extension == 'avif') {
+            fragmentData = await sharp(fragmentData).avif().toBuffer();
+            return res
+            .status(200)
+            .set({
+              'Content-Type': 'image/avif',
+              'Content-Length': fragment.size,
+            })
+            .send(fragmentData);
+          }
+          else {
+            jsonResponse = responseHelper.createErrorResponse('415', 'unsupported type');
+            return res.status(415).json(jsonResponse);
+          }
         }
       }
 
@@ -95,4 +229,16 @@ module.exports = async (req, res) => {
       return res.status(404).json(jsonResponse);
     }
   }
+
+  function mdToHtml(data) { return md.render(data.toString('utf8')); }
+  function htmlToMd(data) {
+    let turndownService = new TurndownService();
+    return turndownService.turndown(data);
+  }
+  function csvToJson(data) { return Papa.parse(data); }
+  function jsonToYaml(data) {
+    const jsonData = YAML.stringify(data);
+    return fs.writeFile('output.yaml', jsonData);
+  }
+
 };
