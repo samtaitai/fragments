@@ -19,14 +19,17 @@ module.exports = async (req, res) => {
           size: result.size
         });
 
+        // console.log('returned byId resut: ', fragment);
+
         // If the Content-Type of the request does not match the existing fragment's type, returns an HTTP 400
         if (!Fragment.isSupportedType(fragment.type)) {
             jsonResponse = responseHelper.createErrorResponse('400', 'unsupported type');
             return res.status(404).json(jsonResponse);
         }
-
+        // get actual data
+        const fragmentData = await fragment.getData();
         // update
-        await fragment.setData(req.body);
+        await fragment.setData(fragmentData);
         const data = {
             fragment: {
               id: fragment.id,
@@ -37,7 +40,10 @@ module.exports = async (req, res) => {
               size: fragment.size,
             },
           };
+
+        //console.log('after setData', data);  
         jsonResponse = responseHelper.createSuccessResponse(data);
+        console.log('show me jsonResponse', jsonResponse);
         return res.status(200).json(jsonResponse);
 
       } catch (err) {

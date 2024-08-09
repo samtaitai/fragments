@@ -109,7 +109,7 @@ class Fragment {
    */
   async setData(data) {
     if (!data) {
-      throw new Error();
+      throw new Error("'setData' failed because of data is empty"); // 
     }
     const now = new Date();
     this.updated = now.toISOString();
