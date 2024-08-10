@@ -13,7 +13,7 @@
     "test:watch": "jest -c jest.config.js --runInBand --watch --",
     "coverage": "jest -c jest.config.js --runInBand --coverage",
     "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\"",
-    "test:integration_single": "hurl --test --glob \"tests/integration/**/get-fragments-csv-to-json.hurl\""
+    "test:integration_single": "hurl --test --glob \"tests/integration/**/get-fragments-json-to-yaml.hurl\""
   },
   "repository": "git+https://github.com:samtaitai/fragments.git",
   "author": "soyonlee",
@@ -42,7 +42,6 @@
     "helmet": "^7.1.0",
     "http-auth": "^4.2.0",
     "http-auth-passport": "^1.0.7",
-    "json-to-pretty-yaml": "^1.2.2",
     "markdown-it": "^14.1.0",
     "papaparse": "^5.4.1",
     "passport": "^0.7.0",
@@ -52,6 +51,7 @@
     "pino-pretty": "^11.0.0",
     "sharp": "^0.33.4",
     "stoppable": "^1.1.0",
-    "turndown": "^7.2.0"
+    "turndown": "^7.2.0",
+    "yaml": "^2.5.0"
   }
 }

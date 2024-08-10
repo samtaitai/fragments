@@ -8,8 +8,7 @@ const { Fragment } = require('../../model/fragment');
 const sharp = require('sharp');
 const TurndownService = require('turndown');
 const Papa = require('papaparse');
-const fs = require('fs');
-const YAML = require('json-to-pretty-yaml');
+const YAML = require('yaml');
 
 /**
  * Get a list of fragments for the current user
@@ -242,8 +241,9 @@ module.exports = async (req, res) => {
     return Papa.parse(data.toString('utf8'), config); 
   }
   function jsonToYaml(data) {
-    const jsonData = YAML.stringify(data);
-    return fs.writeFile('output.yaml', jsonData);
+    const doc = new YAML.Document();
+    doc.contents = data.toString('utf8');
+    return doc.contents;
   }
 
 };
