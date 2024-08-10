@@ -88,7 +88,8 @@ module.exports = async (req, res) => {
           }
           // if ext is md
           else if (req.path.endsWith('md') && fragment.type.includes('text/html')) {
-            fragmentData = htmlToMd(fragmentData);
+            const htmlString = fragmentData.toString('utf-8');
+            fragmentData = htmlToMd(htmlString);
             return res
             .status(200)
             .set({
@@ -108,8 +109,9 @@ module.exports = async (req, res) => {
             })
             .send(fragmentData);
           }
+          // if ext is json
           else if (req.path.endsWith('json') && fragment.type.includes('text/csv')) {
-            fragmentData = csvToJson(fragmentData);
+            fragmentData = csvToJson(fragmentData).data;
             return res
             .status(200)
             .set({
@@ -137,7 +139,7 @@ module.exports = async (req, res) => {
             })
             .send(fragmentData);
           }
-          // is ext is json
+          // is ext is txt
           else if (req.path.endsWith('txt') && fragment.type.includes('application/yaml')) {
             return res
             .status(200)
@@ -235,7 +237,10 @@ module.exports = async (req, res) => {
     let turndownService = new TurndownService();
     return turndownService.turndown(data);
   }
-  function csvToJson(data) { return Papa.parse(data); }
+  function csvToJson(data) { 
+    const config = {header: true};
+    return Papa.parse(data.toString('utf8'), config); 
+  }
   function jsonToYaml(data) {
     const jsonData = YAML.stringify(data);
     return fs.writeFile('output.yaml', jsonData);

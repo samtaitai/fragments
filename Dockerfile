@@ -1,6 +1,6 @@
 # Dockerise fragment
 
-FROM node:16.15.1-bullseye AS dependencies
+FROM node:18.20-alpine AS dependencies
 
 LABEL maintainer="Soyon Lee <slee550@myseneca.ca>" \
 description="Fragment node.js microservice"
@@ -21,7 +21,7 @@ RUN npm install
 
 ########################################################
 
-FROM node:16.15.1-bullseye AS deploy
+FROM node:18.20-alpine AS deploy
 
 WORKDIR /app
 
