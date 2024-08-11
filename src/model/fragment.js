@@ -30,7 +30,8 @@ class Fragment {
 
     const parsed = contentType.parse(type);
     if (!parsed.type.startsWith('text/') 
-      && !parsed.type.startsWith('application/') 
+      && !parsed.type.startsWith('application/j') 
+      && !parsed.type.startsWith('application/y') 
       && !parsed.type.startsWith('image/')) {
       throw new Error('Fragment constructor: Unsupported Media Type');
     }
@@ -161,8 +162,8 @@ class Fragment {
   // TODO: POST /fragments can create any supported text, image or JSON fragments
   static isSupportedType(value) {
     var typeObj = contentType.parse(value).type;
-    console.log('typeObj is? ', typeObj);
-    if (typeObj.startsWith('text/') || typeObj.startsWith('application/') || typeObj.startsWith('image/')) {
+    if (typeObj.startsWith('text/') || typeObj.startsWith('application/j') 
+      || typeObj.startsWith('application/y') || typeObj.startsWith('image/')) {
       return true;
     } else {
       return false;
