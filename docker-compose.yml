@@ -14,9 +14,12 @@ services:
       - API_URL=http://localhost:8080
       # Use Basic Auth (for running tests, CI)
       - HTPASSWD_FILE=tests/.htpasswd
+      # Use Cognito (with fragments-ui)
+      # AWS_COGNITO_POOL_ID=us-east-1_wAoI38EK7
+      # AWS_COGNITO_CLIENT_ID=3u8kb9t15aat5h3d0ipuqrgnjs
       # Use the LOG_LEVEL set in the host environment, or default to info
-      - LOG_LEVEL=${LOG_LEVEL:-debug}
       - AWS_REGION=us-east-1
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
       # Use the LocalStack endpoint vs. AWS for S3 AWS SDK clients.
       # NOTE: we use Docker's internal network to the localstack container
       - AWS_S3_ENDPOINT_URL=http://localstack:4566
