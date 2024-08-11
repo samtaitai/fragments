@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
             const fragmentId = req.params.id;
             console.log('delete.js fragment id: ', fragmentId); //undefined
             // check if the id is existing 
-            const fragment = await Fragment.byId(fragmentId);
+            const fragment = await Fragment.byId(req.user, fragmentId);
             if (fragment) {
                 await Fragment.delete(req.user, fragmentId);
                 return res
