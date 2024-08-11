@@ -4,7 +4,8 @@ const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 
-// ditch MemoryDB => s3 & dynamoDB
+// unit test - env.jest - no aws region -> memory db
+// integration test - docker-compose.yml - yes aws region -> aws 
 const {
   readFragmentData,
   writeFragmentData,
