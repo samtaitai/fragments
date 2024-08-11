@@ -66,7 +66,7 @@ describe('Fragment class', () => {
 
     test('invalid types throw', () => {
       expect(
-        () => new Fragment({ ownerId: '1234', type: 'application/msword', size: 1 })
+        () => new Fragment({ ownerId: '1234', type: undefined, size: 1 })
       ).toThrow();
     });
 

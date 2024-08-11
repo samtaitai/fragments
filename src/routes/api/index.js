@@ -18,6 +18,13 @@ router.get('/fragments/:id', require('./get'));
 
 router.get('/fragments/:id/info', require('./get'));
 
+// router.get('/error/:status?', (req, res, next)=>{
+//   const status = parseInt(req.params.status) || 500;
+//   const err = new Error('Test server error');
+//   err.status = status;
+//   next(err);
+// });
+
 // Support sending various Content-Types on the body up to 5M in size
 const rawBody = () =>
   express.raw({

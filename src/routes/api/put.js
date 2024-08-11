@@ -19,8 +19,7 @@ module.exports = async (req, res) => {
           size: result.size
         });
 
-        //console.log('show me req body: ', req.body);
-        console.log('show me req type header: ', req.headers);
+        console.log('new content type is: ', req.headers['content-type']);
 
         // If the Content-Type of the request does not match the existing fragment's type, returns an HTTP 400
         if (!Fragment.isSupportedType(req.headers['content-type'])) {

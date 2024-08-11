@@ -19,7 +19,7 @@ describe('GET /v1/fragments', () => {
 
   // error test
   // test('authenticated users hits route that causes server error', async () => {
-  //   const res = await request(app).get('/v1/fragments/test-error').auth('test_user1', 'runInBand1!');
+  //   const res = await request(app).get('/error/500').auth('test_user1', 'runInBand1!');
   //   expect(res.statusCode).toBe(500);
   // });
 });

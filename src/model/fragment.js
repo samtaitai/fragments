@@ -29,11 +29,8 @@ class Fragment {
     }
 
     const parsed = contentType.parse(type);
-    if (!parsed.type.startsWith('text/') 
-      && !parsed.type.startsWith('application/j') 
-      && !parsed.type.startsWith('application/y') 
-      && !parsed.type.startsWith('image/')) {
-      throw new Error('Fragment constructor: Unsupported Media Type');
+    if (!parsed) {
+      throw new Error('Fragment constructor: cannot parse content type');
     }
 
     const now = new Date();
@@ -65,9 +62,9 @@ class Fragment {
    */
   static async byId(ownerId, id) {
     const value = await readFragment(ownerId, id);
-    // if (value == undefined) {
-    //   throw new Error("'readFragment' failed");
-    // }
+    if (value == undefined) {
+      throw new Error("'readFragment' failed");
+    }
     return value;
   }
 

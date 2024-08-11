@@ -96,4 +96,22 @@ describe('GET /v1/fragments', () => {
     expect(res.statusCode).toBe(200);
     expect(res.header['content-type']).toContain('text/html');
   });
+
+  test('convert csv data to json', async () => {
+    const postRes = await request(app)
+      .post('/v1/fragments')
+      .auth('test_user1', 'runInBand1!')
+      .send('ontario,toronto,yonge')
+      .set('Content-Type', 'text/csv');
+
+    expect(postRes.statusCode).toBe(201);
+    const testId = postRes.body.fragment.id;
+
+    const res = await request(app)
+      .get(`/v1/fragments/${testId}.json`)
+      .auth('test_user1', 'runInBand1!');
+
+    expect(res.statusCode).toBe(200);
+    expect(res.header['content-type']).toContain('application/json');
+  });
 });
