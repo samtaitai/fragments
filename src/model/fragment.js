@@ -12,7 +12,7 @@ const {
   readFragment,
   writeFragment,
   listFragments,
-} = require('./data/aws');
+} = require('./data');
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
