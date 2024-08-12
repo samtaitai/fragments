@@ -22,7 +22,7 @@ describe('POST /v1/fragments', () => {
         const createdTime = new Date(res.body.fragment.created).getTime();
         const updatedTime = new Date(res.body.fragment.updated).getTime();
         expect(updatedTime).toBeGreaterThan(createdTime);
-      });
+    });
 
     test('updating with unsupported type of fragment returns 400 error', async () => {
       const postRes = await request(app)
@@ -55,5 +55,23 @@ describe('POST /v1/fragments', () => {
       .set('Content-Type', 'text/plain');
   
       expect(res.statusCode).toBe(404);
+    });
+
+    test('authenticated users can replace the text fragment with markdown', async () => {
+      const postRes = await request(app)
+        .post('/v1/fragments')
+        .auth('test_user1', 'runInBand1!')
+        .send('Hello world')
+        .set('Content-Type', 'text/plain');
+  
+      const testId = postRes.body.fragment.id;
+      const res = await request(app)
+      .put(`/v1/fragments/${testId}`)
+      .auth('test_user1', 'runInBand1!')
+      .send('# Welcome to My Markdown Sample')
+      .set('Content-Type', 'text/markdown');
+  
+      expect(res.statusCode).toBe(200);
+      expect(res.body.fragment.type).toContain('text/m');
     });
 });
