@@ -12,6 +12,7 @@ This repository contains the API server for the Fragments application. It provid
 - Fragment type conversion with support for various formats
 - Automatic Docker image build and push to Amazon ECR
 - Automatic deployment to Elastic Container Service (ECS)
+![System Architecture Diagram](https://github.com/samtaitai/fragments/blob/main/mermaid-diagram-2024-08-12-095421.png)
 
 ## Technologies Used
 
