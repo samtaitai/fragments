@@ -1,6 +1,57 @@
-# Fragments
+# Fragments API Server
 
-cloud-computing-for-programmers-summer-2024
+This repository contains the API server for the Fragments application. It provides endpoints for creating, reading, updating, and deleting fragments, as well as converting fragments between different formats.
+
+## Features
+
+- Fragments Metadata stored in Amazon DynamoDB
+- Fragments Data stored in Amazon S3
+- Configurable data model (`MemoryDB` or AWS S3/DynamoDB) via `.env`
+- Support for creating text, image, and JSON fragments
+- Update and delete functionality for authenticated users' fragments
+- Fragment type conversion with support for various formats
+- Automatic Docker image build and push to Amazon ECR
+- Automatic deployment to Elastic Container Service (ECS)
+
+## Technologies Used
+
+- Node.js
+- Express.js
+- Amazon DynamoDB
+- Amazon S3
+- Docker
+- GitHub Actions
+- Amazon Elastic Container Registry (ECR)
+- Amazon Elastic Container Service (ECS)
+- Jest
+- Hurl
+- Markdown-it (for html conversions)
+- Turndown (for markdown conversion)
+- Papaparse (for json conversions)
+- Sharp (for image conversions)
+
+## Prerequisites
+
+- Node.js and npm installed
+- Docker installed
+- AWS account with necessary permissions
+- GitHub account
+
+## API Endpoints
+
+- `POST /fragments`: Create a new fragment
+- `GET /fragments`: Get all fragments for the authenticated user
+- `GET /fragments/:id`: Get a specific fragment
+- `PUT /fragments/:id`: Update an existing fragment
+- `DELETE /fragments/:id`: Delete an existing fragment
+- `GET /fragments/:id.ext`: Get a fragment converted to a specific format
+
+## Continuous Deployment
+
+This repository is set up with GitHub Actions for continuous deployment:
+
+1. On every new git tag, a Docker image is automatically built and pushed to Amazon ECR.
+2. The Docker container is then automatically deployed to ECS using the pre-built ECR image.
 
 ## Scripts
 
@@ -17,5 +68,8 @@ cloud-computing-for-programmers-summer-2024
 - Trigger CD `git push origin main --tags`
 - Entire test (jest) `npm test`
 - Single test (jest) `npm test post.test.js`
-- Test (jest) coverage `npm run coverage`
+- Unit Test (jest) coverage `npm run coverage`
+- Integration Test (Hurl) `npm run test:integration`
+- Create dev environment `docker compose up --build -d`
+- Set up local DB for dev environment `./scripts/local-aws-setup.sh`
 
